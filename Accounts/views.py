@@ -287,7 +287,7 @@ def consultant_registration(request):
 
 # admin section
 from django.db.models import Count
-from payment.serializers import *
+from Payment.serializers import *
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
