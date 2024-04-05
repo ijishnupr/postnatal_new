@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-u#6v*u8p+dbrgci_jk)&1wgp8+awz49q^nx(3bd@drofv)0bx0
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['shebirth.pythonanywhere.com',]
+ALLOWED_HOSTS = ['shebirth.pythonanywhere.com','127.0.0.1']
 
 
 # Application definition
@@ -45,6 +45,9 @@ INSTALLED_APPS = [
     'Learnit',
     'Messages',
     'Payment',
+    'rest_framework.authtoken',
+    'rest_framework',
+    
 
     
 ]
@@ -85,7 +88,7 @@ WSGI_APPLICATION = 'postnatal.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-server=True
+server=False
 if server:
     DATABASES = {
     'default': {
@@ -101,7 +104,7 @@ else:
      DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'shebirth$postnatal',
+        'NAME': 'database_post',
         'USER': 'root',
         'PASSWORD': 'k3@B9fD$!n7x#Za1',
         'HOST': 'localhost',  # This is typically 'localhost' or provided by PythonAnywhere

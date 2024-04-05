@@ -20,7 +20,7 @@ class UserRegistrationView(APIView):
     def post(self, request):
         data = request.data
         serializer = UserPostNatalSerializer(data=data)
-
+       
         if serializer.is_valid():
             # Create the user instance
             user = User.objects.create_user(
@@ -51,7 +51,7 @@ class UserRegistrationView(APIView):
                     customer_details_serializer.errors,
                     status=status.HTTP_400_BAD_REQUEST
                 )
-
+            print('created')
             return Response({'message': 'User registered successfully'}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
@@ -86,6 +86,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from .models import User  # Import your custom token model
 from .serializers import UserPostNatalSerializer
+
 
 # @api_view(['POST'])
 # @permission_classes([AllowAny])
@@ -140,6 +141,7 @@ def login_view(request):
 
     try:
         user_postnatal = User.objects.get(email=email)
+       
     except User.DoesNotExist:
         user_postnatal = None
 
@@ -152,17 +154,19 @@ def login_view(request):
                 status=status.HTTP_401_UNAUTHORIZED
             )
         else:
+            
             # Log the user in with the specified backend
             user_postnatal.backend = 'django.contrib.auth.backends.ModelBackend'  # Set the backend
             django_login(request, user_postnatal)  # Log in the user
-
+            print(user_postnatal)
+            print(type(user_postnatal))
             # Check if the user already has a token
-            token, created = Token.objects.get_or_create(user=user_postnatal)
+            #token, created = Token.objects.get_or_create(user=user_postnatal)
 
             return JsonResponse(
                 {
                     "message": user_postnatal.role,
-                    "token": token.key  # Include the token in the response
+                    # "token": token.key  # Include the token in the response
                 },
                 status=status.HTTP_200_OK
             )
@@ -173,7 +177,7 @@ def login_view(request):
             },
             status=status.HTTP_401_UNAUTHORIZED
         )
-    
+
 
 @api_view(['POST'])
 @permission_classes((IsAuthenticated,))
